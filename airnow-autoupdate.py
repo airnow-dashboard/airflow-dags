@@ -52,7 +52,7 @@ with DAG(
         task_id="scrape_data",
         image="airnow-scraper",
         # env_file=None,
-        auto_remove="yes",
+        auto_remove="force",
         mounts=[shared_volume],
         entrypoint="current"
     )
