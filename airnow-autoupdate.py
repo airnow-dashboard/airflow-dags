@@ -49,6 +49,7 @@ with DAG(
 
     # t1, t2 and t3 are examples of tasks created by instantiating operators
     t1 = DockerOperator(
+        task_id="scrape_data",
         image="airnow-scraper",
         env_file=None,
         auto_remove="yes",
