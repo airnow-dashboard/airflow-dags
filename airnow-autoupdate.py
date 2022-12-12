@@ -87,7 +87,7 @@ with DAG(
         auto_remove="force",
         mounts=[shared_volume],
         command=[output_target, "current"],
-        network_mdoe="host",
+        network_mode="host",
         environment=piper_env_vars
     )
 
