@@ -11,8 +11,8 @@ from docker.types import Mount
 
 shared_volume = Mount(
     target="/app/output",
-    source="airnow-shared-volume",
-    type="volume",
+    source="/var/lib/airnow",
+    type="bind",
     read_only=False
 )
 
@@ -55,7 +55,7 @@ with DAG(
         # env_file=None,
         auto_remove="force",
         mounts=[shared_volume],
-        entrypoint="current"
+        command="current"
     )
 
     t1.doc_md = dedent(
