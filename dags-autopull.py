@@ -7,9 +7,7 @@ from airflow import DAG
 # Operators; we need this to operate!
 from airflow.operators.bash import BashOperator
 
-git_username = "SoloSynth1"
-git_access_token = "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"
-dags_repo_url = "https://{}:{}@github.com/airnow-dashboard/airflow-dags.git".format(git_username, git_access_token)
+dags_repo_url = "https://github.com/airnow-dashboard/airflow-dags.git"
 airflow_dags_path = "/home/airflow/airflow/dags"
 
 
