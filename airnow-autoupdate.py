@@ -11,7 +11,7 @@ from docker.types import Mount
 
 shared_volume = Mount(
     target="/app/output",
-    source="/tmp/output",
+    source="/var/lib/airnow",
     type="volume",
     read_only=False
 )
