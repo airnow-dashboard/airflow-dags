@@ -25,8 +25,8 @@ shared_volume = Mount(
 )
 
 with DAG(
-    "airnow-autoupdate",
-    is_paused_upon_creation=False,  # enable upon DAG creation
+    "airnow-fill-historical-data",
+    is_paused_upon_creation=True,  # disable upon DAG creation
     # These args will get passed on to each operator
     # You can override them on a per-task basis during operator initialization
     default_args={
@@ -38,10 +38,10 @@ with DAG(
         "retry_delay": timedelta(minutes=5),
     },
     description="Autoupdate pipeline for airnow",
-    schedule=timedelta(hours=4),
+    schedule_interval=None,     # never run periodically
     start_date=datetime(2022, 12, 1),
     catchup=False,
-    tags=["recurrent"],
+    tags=["one-off"],
 ) as dag:
 
     scraper = DockerOperator(
@@ -49,7 +49,7 @@ with DAG(
         image="airnow-scraper",
         auto_remove="force",
         mounts=[shared_volume],
-        command="current"
+        command="historical"
     )
 
     scraper.doc_md = dedent(
@@ -73,7 +73,7 @@ with DAG(
         image="piper",
         auto_remove="force",
         mounts=[shared_volume],
-        command=[output_target, "current"],
+        command=[output_target, "historical"],
         network_mode="host",
         environment=piper_env_vars
     )
