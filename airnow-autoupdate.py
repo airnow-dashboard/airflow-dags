@@ -9,8 +9,16 @@ from airflow.providers.docker.operators.docker import DockerOperator
 
 from docker.types import Mount
 
+output_target = "/app/output"
+
+piper_env_vars = {
+    "AIRNOW_DB_HOST": "127.0.0.1",
+    "AIRNOW_DB_USER": "airnow_admin",
+    "AIRNOW_DB_PASSOWRD": "changeme"
+}
+
 shared_volume = Mount(
-    target="/app/output",
+    target=output_target,
     source="/var/lib/airnow",
     type="bind",
     read_only=False
@@ -49,16 +57,15 @@ with DAG(
 ) as dag:
 
     # t1, t2 and t3 are examples of tasks created by instantiating operators
-    t1 = DockerOperator(
+    scraper = DockerOperator(
         task_id="scrape_data",
         image="airnow-scraper",
-        # env_file=None,
         auto_remove="force",
         mounts=[shared_volume],
         command="current"
     )
 
-    t1.doc_md = dedent(
+    scraper.doc_md = dedent(
         """\
     #### Task Documentation
     You can document your task using the attributes `doc_md` (markdown),
@@ -74,4 +81,14 @@ with DAG(
     This is a documentation placed anywhere
     """  # otherwise, type it like this
 
-    t1
+    piper = DockerOperator(
+        task_id="piper",
+        image="piper",
+        auto_remove="force",
+        mounts=[shared_volume],
+        command=[output_target, "current"],
+        network_mdoe="host",
+        environment=piper_env_vars
+    )
+
+    scraper >> piper
