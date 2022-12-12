@@ -7,7 +7,6 @@ from airflow import DAG
 # Operators; we need this to operate!
 from airflow.operators.bash import BashOperator
 
-dags_repo_url = "https://github.com/airnow-dashboard/airflow-dags.git"
 airflow_dags_path = "/home/airflow/airflow/dags"
 
 
@@ -45,7 +44,7 @@ with DAG(
     # t1, t2 and t3 are examples of tasks created by instantiating operators
     t1 = BashOperator(
         task_id="pull_dags",
-        bash_command="cd {} && git pull {}".format(airflow_dags_path, dags_repo_url)
+        bash_command="cd {} && git pull".format(airflow_dags_path)
     )
 
     t1.doc_md = dedent(
