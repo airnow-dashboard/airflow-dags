@@ -51,7 +51,7 @@ with DAG(
     t1 = DockerOperator(
         task_id="scrape_data",
         image="airnow-scraper",
-        env_file=None,
+        # env_file=None,
         auto_remove="yes",
         mounts=[shared_volume],
         entrypoint="current"
