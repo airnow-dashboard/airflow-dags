@@ -1,3 +1,4 @@
+from os import environ
 from datetime import datetime, timedelta
 from textwrap import dedent
 
@@ -12,9 +13,10 @@ from docker.types import Mount
 output_target = "/app/output"
 
 piper_env_vars = {
-    "AIRNOW_DB_HOST": "127.0.0.1",
-    "AIRNOW_DB_USER": "airnow_admin",
-    "AIRNOW_DB_PASSOWRD": "changeme"
+    "AIRNOW_DB_HOST": environ.get("AIRNOW_DB_HOST"),
+    "AIRNOW_DB_NAME": environ.get("AIRNOW_DB_NAME"),
+    "AIRNOW_DB_USER": environ.get("AIRNOW_DB_USER"),
+    "AIRNOW_DB_PASSOWRD": environ.get("AIRNOW_DB_PASSOWRD"),
 }
 
 shared_volume = Mount(
