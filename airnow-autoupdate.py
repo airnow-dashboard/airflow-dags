@@ -16,7 +16,7 @@ piper_env_vars = {
     "AIRNOW_DB_HOST": environ.get("AIRNOW_DB_HOST"),
     "AIRNOW_DB_NAME": environ.get("AIRNOW_DB_NAME"),
     "AIRNOW_DB_USER": environ.get("AIRNOW_DB_USER"),
-    "AIRNOW_DB_PASSOWRD": environ.get("AIRNOW_DB_PASSOWRD"),
+    "AIRNOW_DB_PASSWORD": environ.get("AIRNOW_DB_PASSWORD"),
 }
 
 shared_volume = Mount(
